@@ -43,7 +43,7 @@ fun convertIntoDegMinSec(coordinate: Float): Array<Int> {
 
 }
 
-class CoordinateZA {
+class CoordinateAZ {
 
     val degPerMin: Float = 1.0f / 60
     val degPerSec: Float = 1.0f / 3600
@@ -144,7 +144,7 @@ class CoordinateZA {
         return "${this.getDecimalValue()}...° ${this.direction}"
     }
 
-    fun getMid(coordinate: CoordinateZA): CoordinateZA? {
+    fun getMid(coordinate: CoordinateAZ): CoordinateAZ? {
         if (coordinate.type != this.type) {
             return null
         }
@@ -162,11 +162,11 @@ class CoordinateZA {
             direction = Direction.S
         }
 
-        return CoordinateZA(direction, arr[0], arr[1], arr[2])
+        return CoordinateAZ(direction, arr[0], arr[1], arr[2])
     }
 
 
-    fun getMid(coordinate1: CoordinateZA, coordinate2: CoordinateZA): CoordinateZA? {
+    fun getMid(coordinate1: CoordinateAZ, coordinate2: CoordinateAZ): CoordinateAZ? {
         if (coordinate1.type != coordinate2.type) {
             return null
         }
@@ -184,7 +184,7 @@ class CoordinateZA {
             direction = Direction.S
         }
 
-        return CoordinateZA(direction, arr[0], arr[1], arr[2])
+        return CoordinateAZ(direction, arr[0], arr[1], arr[2])
     }
 }
 
@@ -193,9 +193,9 @@ class CoordinateZA {
 fun main() {
 
 
-    val cord1 = CoordinateZA(Direction.N, 40, 40, 20)
-    val cord2 = CoordinateZA(Direction.S, -50, 10, 5)
-    val cord3 = CoordinateZA(Direction.N, 33, 54, 7)
+    val cord1 = CoordinateAZ(Direction.N, 40, 40, 20)
+    val cord2 = CoordinateAZ(Direction.S, -50, 10, 5)
+    val cord3 = CoordinateAZ(Direction.N, 33, 54, 7)
     val cord4 = cord3.getMid(cord1, cord2)
     println(cord4?.format1())
 }
