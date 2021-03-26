@@ -59,7 +59,7 @@ class CoordinateAZ {
             type = Type.LONGITUDE
         }
 
-        if (checkCoordinate(deg, min, sec, type!!)) {
+        if (!checkCoordinate(deg, min, sec, type!!)) {
             throw Exception("This coordinate isn't correct")
         }
 
@@ -189,12 +189,16 @@ class CoordinateAZ {
 
             val arr: Array<Int> = convertIntoDegMinSec(midValue)
             val direction: Direction
+
             if (arr[0] >= 0 && coordinate1.type == Type.LONGITUDE) {
                 direction = Direction.W
+
             } else if (arr[0] <= 0 && coordinate1.type == Type.LONGITUDE) {
                 direction = Direction.E
+
             } else if (arr[0] >= 0 && coordinate1.type == Type.LATITUDE) {
                 direction = Direction.N
+
             } else {
                 direction = Direction.S
             }
@@ -207,9 +211,7 @@ class CoordinateAZ {
 
                 if (degrees > 180 || degrees < -180) {
                     return false
-                }
-
-                if (degrees != 180 && degrees != -180) {
+                } else if (degrees != 180 && degrees != -180) {
 
                     if (minutes > 59 || minutes < -59) {
                         return false
@@ -217,8 +219,10 @@ class CoordinateAZ {
                     if (seconds > 59 || seconds < -59) {
                         return false
                     }
+                }
 
-
+                if ((degrees == 180 || degrees == -180) && (minutes != 0 || seconds != 0)) {
+                    return false
                 }
 
                 return true
@@ -227,9 +231,7 @@ class CoordinateAZ {
             if (type == Type.LATITUDE) {
                 if (degrees > 90 || degrees < -90) {
                     return false
-                }
-
-                if (degrees != 90 && degrees != -90) {
+                } else if (degrees != 90 && degrees != -90) {
 
                     if (minutes > 59 || minutes < -59) {
                         return false
@@ -237,8 +239,10 @@ class CoordinateAZ {
                     if (seconds > 59 || seconds < -59) {
                         return false
                     }
+                }
 
-
+                if ((degrees == 90 || degrees == -90) && (minutes != 0 || seconds != 0)) {
+                    return false
                 }
 
                 return true
@@ -253,8 +257,10 @@ class CoordinateAZ {
 
 
 fun main() {
-    val cord = CoordinateAZ(Direction.W, 180, 30, 40)
-//    val cord2 = CoordinateAZ(Direction.W, 12, 30, 40)
+    val cord = CoordinateAZ(Direction.N, 12, 30, 40)
+    val cord2 = CoordinateAZ(Direction.S, 12, 30, 40)
+    val cord3 = cord.getMid(cord2)
+    print(cord3?.format1())
 //    val cord4 = CoordinateAZ.getMid(cord1, cord2)
 //    println(cord4?.format1())
 }
