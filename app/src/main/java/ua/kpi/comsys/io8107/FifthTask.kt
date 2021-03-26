@@ -1,5 +1,9 @@
 package ua.kpi.comsys.io8107
 
+import java.text.Collator
+import java.util.*
+import kotlin.collections.ArrayList
+
 fun fifthTask(src_map: Map<String, MutableMap<String, Int>>): Map<String, MutableList<String>> {
     val map: MutableMap<String, MutableList<String>> = hashMapOf()
 
@@ -17,7 +21,7 @@ fun fifthTask(src_map: Map<String, MutableMap<String, Int>>): Map<String, Mutabl
                 } else map[groupName]?.add(student.key)
             }
         }
-
+        map[groupName]?.sortWith(Collator.getInstance(Locale("uk", "UA")))
     }
     return map
 }

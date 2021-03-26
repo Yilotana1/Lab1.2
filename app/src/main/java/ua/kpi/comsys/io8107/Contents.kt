@@ -14,19 +14,16 @@ val studentsStr =
 
 fun main() {
 
-//    val map1 = firstTask(studentsStr)
-//    val map2 = secondTask(map1)
-//    println(map2.size)
-//    val map3 = thirdTask(map2)
-//    println(map3.size)
-//    val map4 = fourthTask(map3)
-//    val map5 = fifthTask(map3)
-//    println(map1)
-//    println(map2)
-//    println(map3)
-//    println(map4)
-//    println(map5)
-
+    val map1 = firstTask(studentsStr)
+    val map2 = secondTask(map1)
+    val map3 = thirdTask(map2)
+    val map4 = fourthTask(map3)
+    val map5 = fifthTask(map3)
+    println(map1)
+    println(map2)
+    println(map3)
+    println(map4)
+    println(map5)
 
 
 

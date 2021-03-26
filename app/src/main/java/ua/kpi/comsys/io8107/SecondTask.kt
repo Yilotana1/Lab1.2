@@ -1,5 +1,8 @@
 package ua.kpi.comsys.io8107
 
+import java.text.Collator
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.math.ceil
 
 
@@ -26,7 +29,7 @@ fun secondTask(src_map: Map<String, MutableList<String>>): Map<String, MutableMa
     val map: MutableMap<String, MutableMap<String, MutableList<Int>>> = hashMapOf()
 
     for (group in src_map) {
-        var subMap: MutableMap<String, MutableList<Int>> = hashMapOf()
+        var subMap: MutableMap<String, MutableList<Int>> = TreeMap(Collator.getInstance(Locale("uk", "UA")))
         for (student in group.value) {
             subMap[student] = getRandomList(10)
         }
