@@ -165,38 +165,38 @@ class CoordinateAZ {
         return CoordinateAZ(direction, arr[0], arr[1], arr[2])
     }
 
+    companion object {
+        fun getMid(coordinate1: CoordinateAZ, coordinate2: CoordinateAZ): CoordinateAZ? {
+            if (coordinate1.type != coordinate2.type) {
+                return null
+            }
+            val midValue: Float = (coordinate1.getDecimalValue() + coordinate2.getDecimalValue()) / 2
 
-    fun getMid(coordinate1: CoordinateAZ, coordinate2: CoordinateAZ): CoordinateAZ? {
-        if (coordinate1.type != coordinate2.type) {
-            return null
+            val arr: Array<Int> = convertIntoDegMinSec(midValue)
+            val direction: Direction
+            if (arr[0] >= 0 && coordinate1.type == Type.LONGITUDE) {
+                direction = Direction.W
+            } else if (arr[0] <= 0 && coordinate1.type == Type.LONGITUDE) {
+                direction = Direction.E
+            } else if (arr[0] >= 0 && coordinate1.type == Type.LATITUDE) {
+                direction = Direction.N
+            } else {
+                direction = Direction.S
+            }
+
+            return CoordinateAZ(direction, arr[0], arr[1], arr[2])
         }
-        val midValue: Float = (coordinate1.getDecimalValue() + coordinate2.getDecimalValue()) / 2
-
-        val arr: Array<Int> = convertIntoDegMinSec(midValue)
-        val direction: Direction
-        if (arr[0] >= 0 && coordinate1.type == Type.LONGITUDE) {
-            direction = Direction.W
-        } else if (arr[0] <= 0 && coordinate1.type == Type.LONGITUDE) {
-            direction = Direction.E
-        } else if (arr[0] >= 0 && coordinate1.type == Type.LATITUDE) {
-            direction = Direction.N
-        } else {
-            direction = Direction.S
-        }
-
-        return CoordinateAZ(direction, arr[0], arr[1], arr[2])
     }
+
 }
 
 
 
 fun main() {
 
-
-    val cord1 = CoordinateAZ(Direction.N, 40, 40, 20)
-    val cord2 = CoordinateAZ(Direction.S, -50, 10, 5)
-    val cord3 = CoordinateAZ(Direction.N, 33, 54, 7)
-    val cord4 = cord3.getMid(cord1, cord2)
+    val cord1 = CoordinateAZ(Direction.N, 50, 40, 20)
+    val cord2 = CoordinateAZ(Direction.S, 20, 20, 10)
+    val cord4 = CoordinateAZ.getMid(cord1, cord2)
     println(cord4?.format1())
 }
 
