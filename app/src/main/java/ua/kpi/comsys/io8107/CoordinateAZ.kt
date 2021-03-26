@@ -59,7 +59,12 @@ class CoordinateAZ {
             type = Type.LONGITUDE
         }
 
-        if (direction == Direction.S || direction == Direction.W){
+        if (checkCoordinate(deg, min, sec, type!!)) {
+            throw Exception("This coordinate isn't correct")
+        }
+
+
+        if (direction == Direction.S || direction == Direction.W) {
             this.degree = -deg
             this.minutes = -min
             this.seconds = -sec
@@ -68,10 +73,10 @@ class CoordinateAZ {
             this.minutes = min
             this.seconds = sec
         }
-
-
     }
 
+
+    //    Constructor with default initialization
     constructor() {
         this.direction = Direction.N
 
@@ -196,17 +201,62 @@ class CoordinateAZ {
 
             return CoordinateAZ(direction, arr[0], arr[1], arr[2])
         }
-    }
 
+        fun checkCoordinate(degrees: Int, minutes: Int, seconds: Int, type: Type): Boolean {
+            if (type == Type.LONGITUDE) {
+
+                if (degrees > 180 || degrees < -180) {
+                    return false
+                }
+
+                if (degrees != 180 && degrees != -180) {
+
+                    if (minutes > 59 || minutes < -59) {
+                        return false
+                    }
+                    if (seconds > 59 || seconds < -59) {
+                        return false
+                    }
+
+
+                }
+
+                return true
+            }
+
+            if (type == Type.LATITUDE) {
+                if (degrees > 90 || degrees < -90) {
+                    return false
+                }
+
+                if (degrees != 90 && degrees != -90) {
+
+                    if (minutes > 59 || minutes < -59) {
+                        return false
+                    }
+                    if (seconds > 59 || seconds < -59) {
+                        return false
+                    }
+
+
+                }
+
+                return true
+            }
+
+            return false
+        }
+
+
+    }
 }
 
 
 fun main() {
-
-    val cord1 = CoordinateAZ(Direction.E, 12, 30, 40)
-    val cord2 = CoordinateAZ(Direction.W, 12, 30, 40)
-    val cord4 = CoordinateAZ.getMid(cord1, cord2)
-    println(cord4?.format1())
+    val cord = CoordinateAZ(Direction.W, 180, 30, 40)
+//    val cord2 = CoordinateAZ(Direction.W, 12, 30, 40)
+//    val cord4 = CoordinateAZ.getMid(cord1, cord2)
+//    println(cord4?.format1())
 }
 
 
