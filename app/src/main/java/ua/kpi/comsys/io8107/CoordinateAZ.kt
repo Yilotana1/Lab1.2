@@ -43,10 +43,10 @@ fun convertIntoDegMinSec(coordinate: Float): Array<Int> {
 
 }
 
-class CoordinateAZ {
+val degPerMin: Float = 1.0f / 60
+val degPerSec: Float = 1.0f / 3600
 
-    val degPerMin: Float = 1.0f / 60
-    val degPerSec: Float = 1.0f / 3600
+class CoordinateAZ {
 
     var type: Type? = null
 
@@ -59,9 +59,17 @@ class CoordinateAZ {
             type = Type.LONGITUDE
         }
 
-        this.degree = deg
-        this.minutes = min
-        this.seconds = sec
+        if (direction == Direction.S || direction == Direction.W){
+            this.degree = -deg
+            this.minutes = -min
+            this.seconds = -sec
+        } else {
+            this.degree = deg
+            this.minutes = min
+            this.seconds = sec
+        }
+
+
     }
 
     constructor() {
@@ -105,7 +113,7 @@ class CoordinateAZ {
 
     var minutes: Int = 0
         set(value) {
-            if (value >= 0 && value <= 59) {
+            if (value >= -59 && value <= 59) {
                 field = value
             } else {
                 throw Exception("Minutes must be specified between 0 and 59")
@@ -114,7 +122,7 @@ class CoordinateAZ {
 
     var seconds: Int = 0
         set(value) {
-            if (value >= 0 && value <= 59) {
+            if (value >= -59 && value <= 59) {
                 field = value
             } else {
                 throw Exception("Seconds must be specified between 0 and 59")
@@ -124,11 +132,8 @@ class CoordinateAZ {
 
     fun getDecimalValue(): Float {
 
-        val part1: Float = this.minutes * this.degPerMin
-        val part2: Float = this.seconds * this.degPerSec
-        if (this.degree <= 0) {
-            return this.degree - part1 - part2
-        }
+        val part1: Float = this.minutes * degPerMin
+        val part2: Float = this.seconds * degPerSec
         return this.degree + part1 + part2
     }
 
@@ -152,12 +157,16 @@ class CoordinateAZ {
 
         val arr: Array<Int> = convertIntoDegMinSec(midValue)
         val direction: Direction
+
         if (arr[0] >= 0 && coordinate.type == Type.LONGITUDE) {
             direction = Direction.W
+
         } else if (arr[0] <= 0 && coordinate.type == Type.LONGITUDE) {
             direction = Direction.E
+
         } else if (arr[0] >= 0 && coordinate.type == Type.LATITUDE) {
             direction = Direction.N
+
         } else {
             direction = Direction.S
         }
@@ -170,7 +179,8 @@ class CoordinateAZ {
             if (coordinate1.type != coordinate2.type) {
                 return null
             }
-            val midValue: Float = (coordinate1.getDecimalValue() + coordinate2.getDecimalValue()) / 2
+            val midValue: Float =
+                (coordinate1.getDecimalValue() + coordinate2.getDecimalValue()) / 2
 
             val arr: Array<Int> = convertIntoDegMinSec(midValue)
             val direction: Direction
@@ -191,11 +201,10 @@ class CoordinateAZ {
 }
 
 
-
 fun main() {
 
-    val cord1 = CoordinateAZ(Direction.N, 50, 40, 20)
-    val cord2 = CoordinateAZ(Direction.S, 20, 20, 10)
+    val cord1 = CoordinateAZ(Direction.E, 12, 30, 40)
+    val cord2 = CoordinateAZ(Direction.W, 12, 30, 40)
     val cord4 = CoordinateAZ.getMid(cord1, cord2)
     println(cord4?.format1())
 }
