@@ -4,22 +4,18 @@ import java.lang.Exception
 
 fun firstTask(src: String): Map<String, MutableList<String>> {
     val list: List<String> = split(src)
-    val map: Map<String, MutableList<String>> = hashMapOf(
-        "ІВ-81" to ArrayList(),
-        "ІВ-82" to ArrayList(),
-        "ІВ-83" to ArrayList(),
-        "ІО-81" to ArrayList(),
-        "ІО-82" to ArrayList(),
-        "ІО-83" to ArrayList(),
-        "ІП-83" to ArrayList(),
-        "ІП-84" to ArrayList()
-    )
+    var map: MutableMap<String, MutableList<String>> = hashMapOf()
 
     for (s in list) {
         val item = parseString(s)
         val name = item[0]
         val key = item[1]
-        map[key]?.add(name)
+
+        if (!map.containsKey(key)) {
+            val arr = ArrayList<String>()
+            arr.add(name)
+            map[key] = arr
+        } else map[key]?.add(name)
     }
 
     val comparator = UkrComparator()
@@ -29,7 +25,6 @@ fun firstTask(src: String): Map<String, MutableList<String>> {
 
     return map
 }
-
 
 
 fun split(src: String): List<String> {

@@ -16,32 +16,23 @@ fun randomValue(maxValue: Int): Int {
 fun getRandomList(size: Int): MutableList<Int> {
     val list: ArrayList<Int> = ArrayList(size)
     for (i in 1..size) {
-        list.add(randomValue(10))
+        list.add(randomValue(8))
     }
     return list
 }
 
 
 fun secondTask(src_map: Map<String, MutableList<String>>): Map<String, MutableMap<String, MutableList<Int>>> {
-    val map: Map<String, MutableMap<String, MutableList<Int>>> = hashMapOf(
-        "ІВ-81" to HashMap(),
-        "ІВ-82" to HashMap(),
-        "ІВ-83" to HashMap(),
-        "ІО-81" to HashMap(),
-        "ІО-82" to HashMap(),
-        "ІО-83" to HashMap(),
-        "ІП-83" to HashMap(),
-        "ІП-84" to HashMap()
-    )
-    var mapValue: MutableMap<String, MutableList<Int>>
+    val map: MutableMap<String, MutableMap<String, MutableList<Int>>> = hashMapOf()
 
-    var groupName: String
-    for (group_item in src_map) {
-        groupName = group_item.key
-        for (student in group_item.value) {
-            mapValue = map[groupName]!!
-            mapValue[student] = getRandomList(9)
+    for (group in src_map) {
+        var subMap: MutableMap<String, MutableList<Int>> = hashMapOf()
+        for (student in group.value) {
+            subMap[student] = getRandomList(10)
         }
+        map[group.key] = subMap
+
+
     }
     return map
 }
